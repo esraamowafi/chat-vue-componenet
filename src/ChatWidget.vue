@@ -1,23 +1,27 @@
 <template>
-
-    <div class="chat-container">
-        <div class="chat-messages">
-            <div v-for="(item, index) in messages" :key="index">
-                <div class="message user-message" v-if="item.role == 'user'">
-                    <span v-html="item.message"></span>
-                </div>
-                <div class="message receiver-message" v-if="item.role != 'user'">
-                    <span v-html="item.message"></span>
+    <button class="fab" @click="toggleFloatingDiv">Open</button>
+    <div v-if="showFloatingDiv" class="floating-div">
+        <div class="chat-container">
+            <div class="chat-messages">
+                <div v-for="(item, index) in messages" :key="index">
+                    <div class="message user-message" v-if="item.role == 'user'">
+                        <span v-html="item.message"></span>
+                    </div>
+                    <div class="message receiver-message" v-if="item.role != 'user'">
+                        <span v-html="item.message"></span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Add more messages here -->
+            <!-- Add more messages here -->
 
-        <!-- Input field and send button -->
-        <div class="input-container">
-            <input type="text" class="message-input" @keyup.enter="sendQuestion" v-model="question" placeholder="Type a message...">
-            <button class="send-button" @click="sendQuestion">Send</button>
+            <!-- Input field and send button -->
+            <div class="input-container">
+                <input type="text" class="message-input" @keyup.enter="sendQuestion" v-model="question"
+                    placeholder="Type a message...">
+                <button class="send-button" @click="sendQuestion">Send</button>
+            </div>
         </div>
+
     </div>
 </template>
 
@@ -28,6 +32,7 @@ export default {
         return {
             messages: [],
             question: "",
+            showFloatingDiv: false
         }
     },
     methods: {
@@ -40,7 +45,7 @@ export default {
             });
             const data = new FormData();
             var chat_id = localStorage.getItem('chat_id');
-            if(chat_id){
+            if (chat_id) {
                 data.append("chat_id", chat_id)
             }
             data.append("query", question)
@@ -58,19 +63,22 @@ export default {
                 }
                 return response.json(); // Parse the response body as JSON
             })
-            .then(async (data) => {
-                let response = data;
-                console.log({response});
-                localStorage.setItem('chat_id', response.chat_id);
-                this.messages.push({
-                    "role": "bot",
-                    "message": response.answer,
+                .then(async (data) => {
+                    let response = data;
+                    console.log({ response });
+                    localStorage.setItem('chat_id', response.chat_id);
+                    this.messages.push({
+                        "role": "bot",
+                        "message": response.answer,
+                    });
+                })
+                .catch(error => {
+                    // Handle any errors that occurred during the fetch
+                    console.error('Fetch error:', error);
                 });
-            })
-            .catch(error => {
-                // Handle any errors that occurred during the fetch
-                console.error('Fetch error:', error);
-            });
+        },
+        toggleFloatingDiv() {
+            this.showFloatingDiv = !this.showFloatingDiv;
         }
     },
 }
@@ -80,7 +88,7 @@ export default {
 <style scoped>
 /* Chat container */
 
-.chat-messages{
+.chat-messages {
     height: 360px;
     overflow-y: scroll;
 }
@@ -145,4 +153,21 @@ export default {
     padding: 8px 12px;
     cursor: pointer;
 }
+
+.floating-div {
+    position: fixed;
+    bottom: 45px;
+    right: 30px;
+    /* transform: translate(-50%, -50%); */
+    width: 360px; /* Set your desired width */
+    margin: 10px;
+    /* Add other styles as desired */
+}
+
+.fab{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
+
 </style>
