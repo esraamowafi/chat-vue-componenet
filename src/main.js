@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import ChatWidget from './ChatWidget.vue'
 
-createApp(App).mount('#app')
+window.ChatWidget = ChatWidget;
+
+createApp(ChatWidget).mount('#chat-widget-container')
