@@ -84,6 +84,9 @@ export default {
     methods: {
         async sendQuestion() {
             let question = this.question;
+            if(this.loading || !question){
+                return;
+            }
             this.question = "";
             this.messages.push({
                 "role": "user",
@@ -138,6 +141,9 @@ export default {
 </script>
 
 <style scoped>
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(.4,0,.6,1) infinite
+}
 
 .loading {
     display: inline-flex;
