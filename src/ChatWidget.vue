@@ -70,6 +70,7 @@ export default {
             player: "",
             chatId: false,
             loading: false,
+            siteLanguage: 'en',
         }
     },
     mounted() {
@@ -77,9 +78,11 @@ export default {
         if (currentScript) {
             this.token = currentScript.getAttribute('data-token');
             this.player = currentScript.getAttribute('data-player');
+            this.siteLanguage = currentScript.getAttribute('data-lang');
         }
         console.log({"token": this.token});
         console.log({"player": this.player});
+        console.log({"siteLanguage": this.siteLanguage});
     },
     methods: {
         async sendQuestion() {
