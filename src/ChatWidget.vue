@@ -71,7 +71,7 @@ export default {
             player: "",
             chatId: false,
             loading: false,
-            siteLanguage: 'ar',
+            siteLanguage: 'en',
         }
     },
     mounted() {
