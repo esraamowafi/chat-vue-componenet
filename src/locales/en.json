@@ -1,6 +1,4 @@
 {
-    "welcome": "Welcome to my app",
-    "hello": "Hello, {name}!",
     "typing": "Typing",
     "send": "Send",
     "type_a_message": "Type a message..."

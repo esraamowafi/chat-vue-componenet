@@ -1,5 +1,4 @@
 <template>
-    <h1 class="header">{{ $t("welcome") }}</h1>
     <div class="fab-container">
         <button @click="toggleFloatingDiv" class="fab">
             <svg height="32px" width="32px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
