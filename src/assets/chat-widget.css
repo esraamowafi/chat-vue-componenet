@@ -1,0 +1,215 @@
+#spacer-span{
+    margin: 6px;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(.4,0,.6,1) infinite
+}
+
+.loading {
+    display: inline-flex;
+    align-items: center
+}
+
+.loading .spacer {
+    margin-right: 2px
+}
+
+.loading span {
+    animation-name: blink;
+    animation-duration: 1.4s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 1px
+}
+
+.loading span:nth-of-type(2) {
+    animation-delay: .2s
+}
+
+.loading span:nth-of-type(3) {
+    animation-delay: .4s
+}
+
+
+/* Chat container */
+
+.chat-messages {
+    height: 360px;
+    overflow-y: scroll;
+    font-size: .875rem;
+}
+
+.chat-container {
+    max-width: 400px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Chat message */
+.message {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    clear: both;
+    max-width: 70%;
+}
+
+/* User message */
+.user-message {
+    float: right;
+    background-color: #4CAF50;
+}
+
+/* Sender's name */
+.sender-name {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* Receiver's name */
+.receiver-name {
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+/* Input field and send button */
+.input-container {
+    margin-top: 10px;
+    clear: both;
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.send-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+/**
+ * Style for the floating div and floating action button (fab)
+ */
+ .fab-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+.fab-container-rtl {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+.fab {
+    background-color: #93e39e;
+    /* Change this to your desired button color */
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    font-size: 32px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.fab::content {
+    content: "\f086";
+}
+
+.fab:hover {
+    background-color: #54ff6b;
+    /* Change this to your desired button hover color */
+    transform: scale(1.1);
+}
+
+
+.hidden-content {
+    /* display: none; */
+    position: fixed;
+    width: 320px;
+    height: 450px;
+    right: 20px;
+    bottom: 20px;
+}
+
+.close-btn {
+    background-color: #fc3f32;
+    /* Change this to your desired button color */
+    color: #fff;
+    width: 32px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-bottom: 4px;
+}
+
+.close-btn:hover {
+    background-color: #cc0000;
+    /* Change this to your desired close button hover color */
+}
+
+.close-container {
+    text-align: right;
+}
+
+/* For Webkit-based browsers (Chrome, Safari) */
+/* Note: These properties may not work in all versions of Safari */
+.chat-messages::-webkit-scrollbar {
+    width: 10px;
+    /* Set the width of the scrollbar */
+    height: 10px;
+    /* Set the height of the scrollbar for horizontal scrollbars */
+    border-radius: 16px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: #f1f1f1;
+    /* Set the color of the thumb (the draggable part) */
+    border-radius: 16px;
+    /* Rounded corners for the thumb */
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    /* Set the color of the track (the non-draggable part) */
+    border-radius: 16px;
+}
+
+/* For Firefox */
+/* Note: These properties may not work in all versions of Firefox */
+/* Use scrollbar-width and scrollbar-color properties */
+/* The scrollbar-color property accepts two values: thumb and track colors */
+/* The scrollbar-width property controls the width of the scrollbar */
+.chat-messages {
+    scrollbar-width: thin;
+    /* or auto or none */
+    scrollbar-color: #fdcbcb #f1f1f1;
+    /* thumb color and track color */
+}
