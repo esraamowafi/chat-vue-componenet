@@ -29,11 +29,15 @@
                 <div class="chat-messages" id="chat-messages">
                     <div v-for="(item, index) in messages" :key="index">
                         <div class="message user-message" v-if="item.role == 'user'">
+                            <img :src="$settings.user_logo" style="width: 24px;" alt="Logo" />
                             <span v-html="item.message"></span>
                         </div>
                         <div class="message receiver-message" v-if="item.role != 'user'">
+                            <img :src="$settings.bot_logo" style="width: 24px;" alt="Logo" />
                             <span v-if="item.loading" class="animate-pulse text-gray-600 text-sm">{{ $t("typing") }}...</span>
-                            <span v-else v-html="item.message"></span>
+                            <span v-else>
+                                <span v-html="item.message"></span>
+                            </span>
                         </div>
                         
                     </div>
@@ -87,8 +91,8 @@ export default {
             this.siteLanguage = navigator.language.split('-')[0]
         }
         this.$i18n.locale = this.siteLanguage;
-        console.log({"token": this.token});
-        console.log({"player": this.player});
+        // console.log({"token": this.token});
+        // console.log({"player": this.player});
     },
     methods: {
         async sendQuestion() {
