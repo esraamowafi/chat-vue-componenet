@@ -31,10 +31,6 @@ const i18n = createI18n({
 
 if (currentScript) {
     let token = currentScript.getAttribute('data-token');
-    // TODO: Remove this in production.
-    if(!token){
-        token = "62b99eba-d88e-4653-990c-b4e9645f754f";
-    }
     fetch("https://chat.oktamam.info/api/organization/themes/"+token, {
         method: "GET",
     }).then(response => {
@@ -50,6 +46,7 @@ if (currentScript) {
         // Attach the code to 
         if(response.status && response.component.chatbot_type == "chat_bubble"){
             let component = response.component;
+            component.token = token;
             const globalSettings = reactive(component);
             let type = Component1;
             if(component.chat_style == "style1"){

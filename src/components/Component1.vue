@@ -75,16 +75,14 @@ export default {
             messages: [],
             question: "",
             showFloatingDiv: false,
-            token: "62b99eba-d88e-4653-990c-b4e9645f754f",
+            token: "",
             chatId: false,
             loading: false,
         }
     },
     mounted() {
-        const currentScript = document.currentScript;
-        if (currentScript) {
-            this.token = currentScript.getAttribute('data-token');
-        }
+        this.token = this.$settings.token;
+        console.log("this.token", this.token);
         if(this.$settings.has_initial_message){
             this.messages.push({
                 "role": "bot",
