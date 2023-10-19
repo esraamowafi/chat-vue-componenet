@@ -1,5 +1,66 @@
 <template>
-    <div class="fab-container">
+
+    <div class="botIcon chatbot style1 " :class="showFloatingDiv ? 'showBotSubject': ''" id="show_style1">
+        <div class="botIconContainer" @click="toggleFloatingDiv">
+            <div class="iconInner">
+                <img :src="$settings.company_logo" id="style1_logo">
+            </div>
+            <h1>Chat Now</h1>
+        </div>
+        <div class="Layout Layout-open Layout-expand Layout-right">
+            <div class="Messenger_messenger">
+                <div class="curve">
+                    <div class="curve-before"></div>
+                    <div class="header-title">
+                        <div class="icon_fullscreen">
+                            <a href="#">
+                                <i class="fa-solid fa-expand" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="chat_close_icon" @click="toggleFloatingDiv">
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="name">
+                        <h5>OKTAMAM Group</h5>
+                        <h6>ChatBot</h6>
+                    </div>
+                </div>
+                <div class="Messenger_content">
+                    <div class="Messages">
+                        <div class="Messages_list" id="Messages_list">
+                            <div v-for="(item, index) in messages" :key="index">
+                                <div class="msg user" v-if="item.role == 'user'">
+                                    <span class="avtr">
+                                        <figure :style="{backgroundImage: url($settings.user_logo)}"></figure>
+                                    </span>
+                                    <span class="responsText" v-html="item.message"></span>
+                                </div>
+                                <div class="msg" v-if="item.role != 'user'">
+                                    <span class="avtr">
+                                        <figure :style="{backgroundImage: url($settings.bot_logo)}"></figure>
+                                    </span>
+                                    <span class="responsText" v-html="item.message"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="messenger" @submit="customSubmit">
+                        <div class="Input Input-blank">
+                            <textarea name="msg" class="Input_field" placeholder="Send a message..."></textarea>
+                            <button type="submit" class="Input_button Input_button-send">
+                                <div class="Icon">
+                                    <i class="fa fa-paper-plane"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="fab-container">
         <button @click="toggleFloatingDiv" class="fab">
             <svg height="32px" width="32px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 58 58" xml:space="preserve">
@@ -29,11 +90,9 @@
                 <div class="chat-messages" id="chat-messages">
                     <div v-for="(item, index) in messages" :key="index">
                         <div class="message user-message" v-if="item.role == 'user'">
-                            <img :src="$settings.user_logo" style="width: 24px;" alt="Logo" />
                             <span v-html="item.message"></span>
                         </div>
                         <div class="message receiver-message" v-if="item.role != 'user'">
-                            <img :src="$settings.bot_logo" style="width: 24px;" alt="Logo" />
                             <span v-if="item.loading" class="animate-pulse text-gray-600 text-sm">{{ $t("typing") }}...</span>
                             <span v-else>
                                 <span v-html="item.message"></span>
@@ -42,9 +101,6 @@
                         
                     </div>
                 </div>
-                <!-- Add more messages here -->
-
-                <!-- Input field and send button -->
                 <div class="input-container">
                     <input type="text" class="message-input" @keyup.enter="sendQuestion" v-model="question"
                     :placeholder="$t(`type_a_message`)">
@@ -60,10 +116,25 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
+
+// function userMsg(msg) {
+//     $('#Messages_list').append('' + mainval + '');
+// };
+// function appendMsg(msg) {
+//     $('#Messages_list').append('' + msg + '');
+//     $("[name='msg']").val("");
+//     //$('#chatColor').on('change', function(){    	
+//         var themeColor=$('#chatColor').val();
+//         $('.msg.user span.responsText' ).css('background' , themeColor );
+//         var textColor=$('#textColor').val();
+//         $('.msg.user span.responsText' ).css('color' , textColor );
+//     //});
+// };
+
 export default {
     name: 'ChatWidget',
     data() {
@@ -95,6 +166,12 @@ export default {
         // console.log({"player": this.player});
     },
     methods: {
+        customSubmit(event) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+            this.sendQuestion();
+        },
+
         async sendQuestion() {
             let question = this.question;
             if(this.loading || !question){
