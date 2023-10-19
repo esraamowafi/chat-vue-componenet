@@ -1,6 +1,6 @@
 import { createApp, reactive } from 'vue';
 import { createI18n } from 'vue-i18n';
-import ChatWidget from './ChatWidget.vue'
+// import ChatWidget from './ChatWidget.vue'
 
 import Component1 from './components/Component1.vue'
 import Component2 from './components/Component2.vue'
@@ -33,9 +33,9 @@ if (currentScript) {
     let token = currentScript.getAttribute('data-token');
     // TODO: Remove this in production.
     if(!token){
-        token = "97167317-6334-4feb-990c-ce9daf96df30";
+        token = "62b99eba-d88e-4653-990c-b4e9645f754f";
     }
-    fetch("http://chatbot.test/api/organization/themes/"+token, {
+    fetch("https://chat.oktamam.info/api/organization/themes/"+token, {
         method: "GET",
     }).then(response => {
         if (response.status === 442) {
@@ -47,7 +47,6 @@ if (currentScript) {
     }).then(async (data) => {
 
         let response = data;
-        console.log({response})
         // Attach the code to 
         if(response.status && response.component.chatbot_type == "chat_bubble"){
             let component = response.component;
@@ -60,7 +59,6 @@ if (currentScript) {
             } else if(component.chat_style == "style3") {
                 type = Component3;
             }
-            console.log("chat_bubble")
 
             var customId = "chat-bubble-container";
             var chat_bubble = document.createElement("div");

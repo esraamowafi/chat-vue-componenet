@@ -162,8 +162,6 @@ export default {
             this.siteLanguage = navigator.language.split('-')[0]
         }
         this.$i18n.locale = this.siteLanguage;
-        // console.log({"token": this.token});
-        // console.log({"player": this.player});
     },
     methods: {
         customSubmit(event) {

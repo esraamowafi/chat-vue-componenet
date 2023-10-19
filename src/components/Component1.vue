@@ -32,19 +32,17 @@
                             <div v-for="(item, index) in messages" :key="index">
                                 <div class="msg user" v-if="item.role == 'user'">
                                     <span class="avtr">
-                                        <figure :style="{backgroundImage: userLogo}"></figure>
+                                        <figure :style="`background-image: ${userLogo}`"></figure>
                                     </span>
                                     <span class="responsText" v-html="item.message" :style="{ color: $settings.text_color, background: $settings.chat_color }"></span>
                                 </div>
                                 <div class="msg" v-if="item.role != 'user'">
                                     <span class="avtr">
-                                        <figure :style="{backgroundImage: botLogo}"></figure>
+                                        <figure :style="`background-image: ${botLogo}`"></figure>
                                     </span>
                                     <span class="responsText">
-                                        <span v-if="item.loading" class="animate-pulse text-gray-600 text-sm">{{ $t("typing") }}...</span>
-                                        <span v-else>
-                                            <span v-html="item.message"></span>
-                                        </span>
+                                        <span v-if="item.message.trim() === ''">{{ $t("typing") }}...</span>
+                                        <span v-else v-html="item.message"></span>
                                     </span>
                                 </div>
                             </div>
@@ -52,7 +50,8 @@
                     </div>
                     <form id="messenger" @submit="customSubmit">
                         <div class="Input Input-blank">
-                            <input type="text" name="msg" v-model="question" class="Input_field" placeholder="Send a message..." />
+                            <input type="text" name="msg" v-model="question" class="Input_field" 
+                            :placeholder="$t(`send_a_message`)" />
                             <button type="submit" class="Input_button Input_button-send">
                                 <div class="Icon">
                                     <i :style="{ color: $settings.chat_color }" class="fa fa-paper-plane"></i>
@@ -76,10 +75,9 @@ export default {
             messages: [],
             question: "",
             showFloatingDiv: false,
-            token: "",
+            token: "62b99eba-d88e-4653-990c-b4e9645f754f",
             chatId: false,
             loading: false,
-            // siteLanguage: 'en',
             userLogo: "images/chatuser.png",
             botLogo: "images/chatbot-icon.png",
         }
@@ -88,17 +86,18 @@ export default {
         const currentScript = document.currentScript;
         if (currentScript) {
             this.token = currentScript.getAttribute('data-token');
-            if(!this.token){
-                this.token = "97167317-6334-4feb-990c-ce9daf96df30";
-            }
         }
-        console.log("this.token", this.token);
+        if(this.$settings.has_initial_message){
+            this.messages.push({
+                "role": "bot",
+                "message": this.$settings.initial_message,
+            });
+        }
     },
     methods: {
         customSubmit(event) {
             // Prevent the default form submission behavior
             event.preventDefault();
-            console.log("Form submited");
             this.sendQuestion();
         },
         tryJSON(str) {
@@ -120,92 +119,54 @@ export default {
             });
             this.messages.push({
                 "role": "bot",
-                "loading": true,
+                "message": "",
             });
             const chatMessagesDiv = document.getElementById("Messages_list")
             chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
             this.loading = true;
 
-            // const body = {
-            //     query: question,
-            //     chat_id: this.chatId,
-            // };
-            // fetch("http://chatbot.test/api/organization/message/"+this.token, {
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //         "X-Requested-With": "XMLHttpRequest",
-            //     },
-            //     method: "POST",
-            //     body: JSON.stringify(body),
-            // })
-            // .then(async (res) => {
-            //     if (!res.ok) {
-            //         console.error("Internal error occur in the system");
-            //         return;
-            //     }
-
-            //     const reader = res.body.getReader();
-            //     const decoder = new TextDecoder();
-
-            //     let response = null;
-            //     let loop = true;
-            //     this.messages.pop();
-            //     this.messages.push({
-            //         "role": "bot",
-            //         "message": "",
-            //     });
-            //     while (loop) {
-            //         const { value, done } = await reader.read();
-            //         if (done) break;
-            //         let text = decoder.decode(value, { stream: true });
-            //         // text
-            //         if(text.endsWith('JSON_RESPONSE')){
-            //             response = this.tryJSON(text.replace('JSON_RESPONSE', ''));
-            //         }else{
-            //             this.messages[this.messages.length - 1].message += text
-            //             const msgsDiv = document.getElementById("Messages_list")
-            //             msgsDiv.scrollTop = msgsDiv.scrollHeight;
-            //         }
-            //     }
-            //     if(response && response.status){
-            //         console.log({response});
-            //         // this.chatId = response.chat_id;
-            //     }
-            // })
-            // .catch(error => {
-            //     console.error('Fetch error:', error);
-            // });
-
-
-
-            const data = new FormData();
-            if (this.chatId) {
-                data.append("chat_id", this.chatId)
+            const body = {
+                question: question,
+            };
+            if(this.chatId){
+                body.chat_id = this.chatId;
             }
-            data.append("query", question)
-            fetch("http://chatbot.test/api/message", {
+            fetch("https://chat.oktamam.info/api/organization/message/"+this.token, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                },
                 method: "POST",
-                body: data,
-            }).then(response => {
+                body: JSON.stringify(body),
+            })
+            .then(async (res) => {
                 this.loading = false;
-                if (response.status === 442) {
-                    return response.json();
-                } else if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                if (!res.ok) {
+                    this.messages[this.messages.length - 1].message = "Internal error occur in the system";
+                    return;
                 }
-                return response.json(); // Parse the response body as JSON
-            }).then(async (data) => {
-                let response = data;
-                this.chatId = response.chat_id;
-                this.messages.pop();
-                this.messages.push({
-                    "role": "bot",
-                    "message": response.answer,
-                });
-                chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
-            }).catch(error => {
-                this.messages.pop();
-                // Handle any errors that occurred during the fetch
+                const reader = res.body.getReader();
+                const decoder = new TextDecoder();
+
+                let response = null;
+                let loop = true;
+                while (loop) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    let text = decoder.decode(value, { stream: true });
+                    if(text.endsWith('JSON_RESPONSE')){
+                        response = this.tryJSON(text.replace('JSON_RESPONSE', ''));
+                    }else{
+                        this.messages[this.messages.length - 1].message += text
+                        const msgsDiv = document.getElementById("Messages_list")
+                        msgsDiv.scrollTop = msgsDiv.scrollHeight;
+                    }
+                }
+                if(response && response.status){
+                    this.chatId = response.chat_id;
+                }
+            })
+            .catch(error => {
                 console.error('Fetch error:', error);
             });
         },
