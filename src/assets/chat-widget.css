@@ -429,7 +429,8 @@ p{
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
+    margin: 8px 0;
 }
 
 .msg.user {
@@ -468,15 +469,21 @@ span.responsText {
 }
 
 span.avtr {
-    display: inline-block;
-    width: 35px;
-    height: 35px;
+    width: 24px;
+    height: 24px;
     z-index: 1;
     border-radius: 50%;
     border: 3px solid #fcfcfc;
     margin-top: -15px;
     padding: 5px;
     background: #ededef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.avtr img{
+  width: 19px;
+  height: 19px;
 }
 
 span.avtr figure {

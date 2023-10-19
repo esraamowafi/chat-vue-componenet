@@ -31,13 +31,13 @@
                             <div v-for="(item, index) in messages" :key="index">
                                 <div class="msg user" v-if="item.role == 'user'">
                                     <span class="avtr">
-                                        <figure><img :src="$settings.user_icon"></figure>
+                                        <img :src="$settings.user_icon">
                                     </span>
                                     <span class="responsText" v-html="item.message" :style="{ color: $settings.text_color, background: $settings.chat_color }"></span>
                                 </div>
                                 <div class="msg" v-if="item.role != 'user'">
                                     <span class="avtr">
-                                        <figure><img :src="$settings.bot_icon"></figure>
+                                        <img :src="$settings.bot_icon">
                                     </span>
                                     <span class="responsText">
                                         <span v-if="item.message.trim() === ''">{{ $t("typing") }}...</span>
