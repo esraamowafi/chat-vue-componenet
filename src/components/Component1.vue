@@ -32,13 +32,13 @@
                             <div v-for="(item, index) in messages" :key="index">
                                 <div class="msg user" v-if="item.role == 'user'">
                                     <span class="avtr">
-                                        <figure :style="`background-image: ${userLogo}`"></figure>
+                                        <figure><img :src="$settings.user_icon"></figure>
                                     </span>
                                     <span class="responsText" v-html="item.message" :style="{ color: $settings.text_color, background: $settings.chat_color }"></span>
                                 </div>
                                 <div class="msg" v-if="item.role != 'user'">
                                     <span class="avtr">
-                                        <figure :style="`background-image: ${botLogo}`"></figure>
+                                        <figure><img :src="$settings.bot_icon"></figure>
                                     </span>
                                     <span class="responsText">
                                         <span v-if="item.message.trim() === ''">{{ $t("typing") }}...</span>
@@ -78,8 +78,6 @@ export default {
             token: "62b99eba-d88e-4653-990c-b4e9645f754f",
             chatId: false,
             loading: false,
-            userLogo: "images/chatuser.png",
-            botLogo: "images/chatbot-icon.png",
         }
     },
     mounted() {
