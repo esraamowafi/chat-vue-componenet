@@ -3,9 +3,14 @@
 @import url('https://fonts.googleapis.com/css?family=Tajawal');
 @import url('https://fonts.googleapis.com/css?family=Almarai');
 
+*, ::after, ::before {
+  box-sizing: border-box;
+}
 
 body{
     font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
 }
 /*start general*/
 .row{
@@ -104,12 +109,14 @@ p{
     font-size: 18px;
     margin: 0;
     line-height: 20px;
+    font-weight: 500;
 }
 .name h6{
     font-size: 16px;
     margin: 0;
     line-height: 25px;
     color: #e9e9e9;
+    font-weight: 500;
 }
 .chat_on {
     background-color: #8a57cf;
@@ -293,6 +300,7 @@ p{
   }
   .icon_fullscreen a{
     color: #fff;
+    font-size: 16px;
   }
 
 
@@ -380,6 +388,7 @@ p{
     font-size: 14px;
     line-height: 20px;
     min-height: 20px !important;
+    font-family: inherit;
 }
 
 .botIcon .Input_button-emoji {
@@ -449,7 +458,7 @@ span.responsText {
     display: inline-block;
     margin-inline-start: -10px;
     vertical-align: top;
-    max-width: calc(100% - 100px);
+    max-width: calc(100% - 50px);
     background: #ededef;
     padding: 5px 10px;
     border-radius: 8px;
@@ -469,8 +478,8 @@ span.responsText {
 }
 
 span.avtr {
-    width: 24px;
-    height: 24px;
+    width: 35px;
+    height: 35px;
     z-index: 1;
     border-radius: 50%;
     border: 3px solid #fcfcfc;
@@ -482,8 +491,9 @@ span.avtr {
     align-items: center;
 }
 .avtr img{
-  width: 19px;
-  height: 19px;
+  /* width: 19px;
+  height: 19px; */
+  max-width: 100% !important;
 }
 
 span.avtr figure {
@@ -624,6 +634,9 @@ span.avtr figure {
 }
 .layout-header2 .title img{
     width: 40px;
+}
+.layout-header2 .title p{
+    margin-top: 0 !important;
 }
 .messages-wrapper2 .Messenger_messenger{
     background: #2595b3;
